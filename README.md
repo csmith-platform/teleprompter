@@ -24,3 +24,16 @@ Standard keyboard controls: Space/Enter = play/pause; up/down arrows = short scr
 
 ## Privacy
 No analytics, backend, cookies or external scripts. Scripts and preferences stay in that browser's local storage. Keep a separate copy of important scripts in Word.
+
+## Development branch: camera recording (experimental)
+
+The `dev` branch includes the current in-browser camera implementation and a guide-position range of 15–95% of the viewport height. These changes were already present in `main` when `dev` was created; the branch is now the designated place for further camera development.
+
+- **Camera: On** requests video and microphone access; **Flip camera** switches between front and rear where supported.
+- **Record** starts/stops `MediaRecorder` and downloads the recorded camera stream to the device. The scrolling script is visible on screen but is **not** included in the video.
+- Camera access requires HTTPS (or localhost), user permission and browser support. Recording codecs and download behaviour differ between Android browsers and iOS Safari.
+- The recording is held in browser memory until stopped. Test short clips first; long recordings can exhaust memory or be lost if the app closes. Confirm the downloaded file and audio before relying on it for production.
+- Mirroring affects script presentation, not the raw camera recording. Do not assume every browser can use the camera while in PWA full-screen mode.
+- This feature has **not** yet passed physical-device recording tests. Keep the existing external-camera plus Desview workflow as the production fallback.
+
+For a separate preview deployment, configure Cloudflare Pages to build the `dev` branch as a preview environment. Keep `main` as the production branch.
